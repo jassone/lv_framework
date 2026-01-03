@@ -32,9 +32,11 @@ func NewRedisClient(indexDb int) *RedisClient {
 	conf := lv_conf.CfgDefault{}
 	addr := conf.GetValueStr("application.redis.host")
 	port := conf.GetValueStr("application.redis.port")
+	username := conf.GetValueStr("application.redis.username")
 	password := conf.GetValueStr("application.redis.password")
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     addr + ":" + port,
+		Username: username,
 		Password: password, // 没有密码，默认值
 		DB:       indexDb,  // 默认DB 0
 	})
