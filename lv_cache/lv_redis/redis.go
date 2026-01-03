@@ -3,11 +3,12 @@ package lv_redis
 import (
 	"context"
 	"fmt"
+	"sync"
+	"time"
+
 	"github.com/jassone/lv_framework/lv_conf"
 	"github.com/jassone/lv_framework/lv_log"
 	"github.com/redis/go-redis/v9"
-	"sync"
-	"time"
 )
 
 var (
@@ -48,10 +49,11 @@ func NewRedisClient(indexDb int) *RedisClient {
 			  无法链接到redis!!!! 检查相关配置:
 			  host: %v
 			  port: %v
+              username: %v
 			  password: %v
              `
 		host := conf.GetValueStr("application.redis.host")
-		lv_log.Error(fmt.Sprintf(msg, host, conf.GetValueStr("application.redis.port"), conf.GetValueStr("application.redis.password")))
+		lv_log.Error(fmt.Sprintf(msg, host, conf.GetValueStr("application.redis.port"), conf.GetValueStr("application.redis.username"), conf.GetValueStr("application.redis.password")))
 		panic("redis 错误:" + host + " port:" + port)
 	}
 	return redisClient
